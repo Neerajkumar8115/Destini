@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'story_brain.dart';
 
 // ignore: todo
 //TODO: Step 15 - Run the app and see if you can see the screen update with the first story. Delete this TODO if it looks as you expected.
@@ -6,6 +7,9 @@ import 'package:flutter/material.dart';
 void main() => runApp(Destini());
 
 class Destini extends StatelessWidget {
+  const Destini({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
@@ -15,8 +19,10 @@ class Destini extends StatelessWidget {
 }
 
 //TODO: Step 9 - Create a new storyBrain object from the StoryBrain class.
+StoryBrain storyBrain = StoryBrain();
 
 class StoryPage extends StatefulWidget {
+  @override
   _StoryPageState createState() => _StoryPageState();
 }
 
@@ -25,8 +31,10 @@ class _StoryPageState extends State<StoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration:
-            BoxDecoration(image: DecorationImage(image: AssetImage('image/'))),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('images/background.png'), fit: BoxFit.cover),
+        ),
         //TODO: Step 1 - Add background.png to this Container as a background image.
         padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
         constraints: const BoxConstraints.expand(),
@@ -34,12 +42,12 @@ class _StoryPageState extends State<StoryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Expanded(
+              Expanded(
                 flex: 12,
                 child: Center(
+                  //TODO: Step 10 - use the storyBrain to get the first story title and display it in this Text Widget.
                   child: Text(
-                    //TODO: Step 10 - use the storyBrain to get the first story title and display it in this Text Widget.
-                    'Story text will go here.',
+                    storyBrain.getStory(),
                     style: TextStyle(
                       fontSize: 25.0,
                     ),
@@ -54,14 +62,17 @@ class _StoryPageState extends State<StoryPage> {
                         MaterialStatePropertyAll<Color>(Colors.red),
                   ),
                   onPressed: () {
+                    setState(() {
+                      storyBrain.nextStory(1);
+                    });
                     //Choice 1 made by user.
                     //TODO: Step 18 - Call the nextStory() method from storyBrain and pass the number 1 as the choice made by the user.
                   },
-                  child: const Text(
+                  child: Text(
                     //TODO: Step 13 - Use the storyBrain to get the text for choice 1.
-                    'Choice 1',
+                    storyBrain.getChoice1(),
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 18.0,
                     ),
                   ),
                 ),
@@ -79,14 +90,17 @@ class _StoryPageState extends State<StoryPage> {
                         MaterialStatePropertyAll<Color>(Colors.blue),
                   ),
                   onPressed: () {
+                    setState(() {
+                      storyBrain.nextStory(2);
+                    });
                     //Choice 2 made by user.
                     //TODO: Step 19 - Call the nextStory() method from storyBrain and pass the number 2 as the choice made by the user.
                   },
-                  child: const Text(
+                  child: Text(
                     //TODO: Step 14 - Use the storyBrain to get the text for choice 2.
-                    'Choice 2',
+                    storyBrain.getChoice2(),
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 18.0,
                     ),
                   ),
                 ),
@@ -98,7 +112,3 @@ class _StoryPageState extends State<StoryPage> {
     );
   }
 }
-
-//TODO: Step 24 - Run the app and try to figure out what code you need to add to this file to make the story change when you press on the choice buttons.
-
-//TODO: Step 29 - Run the app and test it against the Story Outline to make sure you've completed all the steps. The code for the completed app can be found here: https://github.com/londonappbrewery/destini-challenge-completed/
